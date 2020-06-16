@@ -5,7 +5,6 @@ import entity.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.ArrayList;
-import java.util.IllegalFormatPrecisionException;
 import java.util.List;
 
 public class Tester {
@@ -34,7 +33,7 @@ public class Tester {
         recipes.add(recipe);
         recipes.add(recipe2);
 
-        WeekMenuPlan weekMenuPlan = new WeekMenuPlan(recipes, 40, 2020);
+        WeekMenuPlan menuPlan = new WeekMenuPlan(recipes, 40, 2020);
 
         entityManager.getTransaction().begin();
         entityManager.persist(item);
@@ -46,10 +45,7 @@ public class Tester {
         entityManager.getTransaction().begin();
         entityManager.persist(ingredient2);
         entityManager.persist(recipe2);
-        entityManager.getTransaction().commit();
-
-        entityManager.getTransaction().begin();
-        entityManager.persist(weekMenuPlan);
+        entityManager.persist(menuPlan);
         entityManager.getTransaction().commit();
 
         entityManager.close();

@@ -1,10 +1,17 @@
 package entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "ingredients")
-public class Ingredient {
+@NamedQueries(
+        @NamedQuery(
+                name = "Ingredient.dropAll",
+                query = "delete from Ingredient"
+        )
+)
+public class Ingredient implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ingredient_id")

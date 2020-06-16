@@ -11,8 +11,7 @@ public class RecipeDTO {
     private int preparationTime;
     private String directions;
 
-    public RecipeDTO(Long id, List<Ingredient> ingredients, int preparationTime, String directions) {
-        this.id = id;
+    public RecipeDTO(List<Ingredient> ingredients, int preparationTime, String directions) {
         this.ingredients = ingredients;
         this.preparationTime = preparationTime;
         this.directions = directions;

@@ -3,10 +3,17 @@ package entity;
 import dtos.ItemDTO;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "items")
-public class Item {
+@NamedQueries(
+        @NamedQuery(
+                name = "Item.dropAll",
+                query = "delete from Item"
+        )
+)
+public class Item implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
