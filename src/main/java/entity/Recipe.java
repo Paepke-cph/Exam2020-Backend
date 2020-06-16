@@ -28,16 +28,22 @@ import java.util.List;
                 query = "select distinct r from Recipe r where r.ingredients in :ingredients"
         ),
 })
-@NamedNativeQuery(
-        name = "Recipe.dropRelated",
-        query = "delete from recipe_ingredient where recipe_ingredient.recipe_id = ?"
-)
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "Recipe.dropRelatedRecipeIngredient",
+                query = "delete from recipe_ingredient where recipe_ingredient.recipe_id = ?"
+        ),
+        @NamedNativeQuery(
+                name = "Recipe.dropRelatedIngredient",
+                query = "delete from ingredients where ingredients.ingredient_id in (select ingredient_id from recipe_ingredient where recipe_id = ?)"
+        )
+})
 public class Recipe implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_id")
     private Long id;
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany
     @JoinTable(name = "recipe_ingredient",
             joinColumns = {@JoinColumn(name = "recipe_id", referencedColumnName = "recipe_id")},
             inverseJoinColumns = {@JoinColumn(name = "ingredient_id", referencedColumnName = "ingredient_id")}

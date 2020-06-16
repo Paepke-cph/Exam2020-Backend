@@ -82,7 +82,7 @@ public class RecipeResource {
     public Response deleteRecipe(String input) {
         // We cant deserialize the RecipeDTO in entity stream, apparently.....
         RecipeDTO recipe = gson.fromJson(input, RecipeDTO.class);
-        recipe = RECIPE_FACADE.updateRecipe(recipe);
+        recipe = RECIPE_FACADE.deleteRecipe(recipe);
         return Response.ok(recipe).build();
     }
 }

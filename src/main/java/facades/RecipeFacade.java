@@ -122,13 +122,30 @@ public class RecipeFacade {
         return recipe;
     }
 
+    private void dropRelatedRecipeIngredient(RecipeDTO recipe) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.createNamedQuery("Recipe.dropRelatedRecipeIngredient")
+                .setParameter(1, recipe.getId())
+                .executeUpdate();
+        entityManager.getTransaction().commit();
+    }
+
+    private void dropRelatedIngredient(RecipeDTO recipe) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.createNamedQuery("Recipe.dropRelatedRecipeIngredient")
+                .setParameter(1, recipe.getId())
+                .executeUpdate();
+        entityManager.getTransaction().commit();
+    }
+
     public RecipeDTO deleteRecipe(RecipeDTO recipe) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+        dropRelatedRecipeIngredient(recipe);
+        dropRelatedIngredient(recipe);
         try {
             entityManager.getTransaction().begin();
-            entityManager.createNamedQuery("Recipe.dropRelated")
-                    .setParameter(1, recipe.getId())
-                    .executeUpdate();
             Recipe rec = entityManager.find(Recipe.class, recipe.getId());
             if(rec != null) {
                 entityManager.remove(rec);
