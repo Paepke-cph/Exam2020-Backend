@@ -35,6 +35,16 @@ public class RecipeResource {
     @RolesAllowed({"user","admin"})
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
+    @Path("/id")
+    public Response getRecipeById(String input) {
+        long id = Long.parseLong(input);
+        return Response.ok(RECIPE_FACADE.getById(id)).build();
+    }
+
+    @POST
+    @RolesAllowed({"user","admin"})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
     public Response getRecipeByIngredients(List<Ingredient> ingredients) {
         List<RecipeDTO> recipes = RECIPE_FACADE.getByIngredients(ingredients);
         return Response.ok(recipes).build();
