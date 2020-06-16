@@ -2,7 +2,6 @@ package facades;
 
 import dtos.RecipeDTO;
 import entity.Ingredient;
-import entity.IngredientDTO;
 import entity.Recipe;
 
 import javax.persistence.EntityManager;

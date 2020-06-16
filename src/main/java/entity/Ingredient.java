@@ -1,5 +1,7 @@
 package entity;
 
+import dtos.IngredientDTO;
+
 import javax.persistence.*;
 import java.io.Serializable;
 

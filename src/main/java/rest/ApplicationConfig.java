@@ -45,5 +45,4 @@ public class ApplicationConfig extends Application {
         resources.add(AuthenticationExceptionMapper.class);
         resources.add(UserExceptionMapper.class);
     }
-
 }
