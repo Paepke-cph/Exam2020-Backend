@@ -1,45 +1,28 @@
-package entity;
+package dtos;
 
-import dtos.RecipeDTO;
-
-import javax.persistence.*;
+import entity.Ingredient;
+import entity.Recipe;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "recipes")
-public class Recipe {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recipe_id")
+public class RecipeDTO {
     private Long id;
-    @OneToMany
-    @JoinTable(name = "recipe_ingredient",
-            joinColumns = {@JoinColumn(name = "recipe_id", referencedColumnName = "recipe_id")},
-            inverseJoinColumns = {@JoinColumn(name = "ingredient_id", referencedColumnName = "ingredient_id")}
-    )
     private List<Ingredient> ingredients = new ArrayList<>();
-
-    @Column(name = "recipe_preparationTime", nullable = false)
     private int preparationTime;
-    @Column(name = "recipe_directions")
     private String directions;
 
-
-    public Recipe() {
-    }
-
-    public Recipe(List<Ingredient> ingredients, int preparationTime, String directions) {
+    public RecipeDTO(Long id, List<Ingredient> ingredients, int preparationTime, String directions) {
+        this.id = id;
         this.ingredients = ingredients;
         this.preparationTime = preparationTime;
         this.directions = directions;
     }
 
-    public Recipe(RecipeDTO dto) {
-        this.id = dto.getId();
-        this.ingredients = dto.getIngredients();
-        this.preparationTime = dto.getPreparationTime();
-        this.directions = dto.getDirections();
+    public RecipeDTO(Recipe recipe) {
+        this.id = recipe.getId();
+        this.ingredients = recipe.getIngredients();
+        this.preparationTime = recipe.getPreparationTime();
+        this.directions = recipe.getDirections();
     }
 
     public Long getId() {

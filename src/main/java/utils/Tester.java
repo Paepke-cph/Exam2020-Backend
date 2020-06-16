@@ -1,9 +1,6 @@
 package utils;
 
-import entity.Ingredient;
-import entity.Item;
-import entity.Recipe;
-import entity.Storage;
+import entity.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -33,6 +30,12 @@ public class Tester {
         Recipe recipe = new Recipe(recipeIngredients, 70, "<ul><li>Step 1</li></ul>");
         Recipe recipe2 = new Recipe(recipeIngredients2, 90,"<ul><li>Step 1</li></ul>");
 
+        List<Recipe> recipes = new ArrayList<>();
+        recipes.add(recipe);
+        recipes.add(recipe2);
+
+        WeekMenuPlan weekMenuPlan = new WeekMenuPlan(recipes, 40, 2020);
+
         entityManager.getTransaction().begin();
         entityManager.persist(item);
         entityManager.persist(ingredient);
@@ -43,6 +46,10 @@ public class Tester {
         entityManager.getTransaction().begin();
         entityManager.persist(ingredient2);
         entityManager.persist(recipe2);
+        entityManager.getTransaction().commit();
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(weekMenuPlan);
         entityManager.getTransaction().commit();
 
         entityManager.close();

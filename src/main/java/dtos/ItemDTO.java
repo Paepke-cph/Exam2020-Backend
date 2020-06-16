@@ -1,34 +1,24 @@
-package entity;
+package dtos;
 
-import dtos.ItemDTO;
+import entity.Item;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "items")
-public class Item {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "item_id")
+public class ItemDTO {
     private Long id;
-    @Column(name = "item_name", unique = true, nullable = false)
     private String name;
-    @Column(name = "item_pricePrKilogram", nullable = false)
     private int pricePrKilogram;
 
-    public Item() {
-    }
+    public ItemDTO() {}
 
-    public Item(Long id, String name, int pricePrKilogram) {
+    public ItemDTO(Long id, String name, int pricePrKilogram) {
         this.id = id;
         this.name = name;
         this.pricePrKilogram = pricePrKilogram;
     }
 
-    public Item(ItemDTO dto) {
-        this.id = dto.getId();
-        this.name = dto.getName();
-        this.pricePrKilogram = dto.getPricePrKilogram();
+    public ItemDTO(Item item) {
+        this.id = item.getId();
+        this.name = item.getName();
+        this.pricePrKilogram = item.getPricePrKilogram();
     }
 
     public Long getId() {
