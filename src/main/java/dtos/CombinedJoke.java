@@ -2,6 +2,7 @@ package dtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+// TODO(Benjamin): Remove this!
 @Schema(name ="Joke")
 public class CombinedJoke {
     @Schema(required = true, example = "....random Chuck Noris joke")
@@ -13,10 +14,10 @@ public class CombinedJoke {
     @Schema(required = true, example = "https://icanhazdadjoke.com")
     public String joke2Reference;
 
-    public CombinedJoke(ChuckDTO chuckDTO, DadDTO dadDTO) {
+    /*public CombinedJoke(ChuckDTO chuckDTO, DadDTO dadDTO) {
         this.joke1 = chuckDTO.getValue();
         this.joke1Reference = chuckDTO.getUrl();
         this.joke2 = dadDTO.joke;
         this.joke2Reference = dadDTO.getUrl();
-    }
+    }*/
 }

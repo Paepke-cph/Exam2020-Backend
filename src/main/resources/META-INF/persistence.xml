@@ -3,6 +3,9 @@
   <!-- DO NOT RENAME THE PERSISTENCE UNIT -->
   <persistence-unit name="pu" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>entity.Item</class>
+    <class>entity.Ingredient</class>
+    <class>entity.Storage</class>
     <class>entity.Role</class>
     <class>entity.User</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>

@@ -1,10 +1,7 @@
 package rest;
 
 import com.google.gson.Gson;
-import dtos.TagDTO;
-import dtos.ChuckDTO;
 import dtos.CombinedJoke;
-import dtos.DadDTO;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -69,11 +66,12 @@ public class JokeResource {
     @RolesAllowed({"user","admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public String getJokes() throws IOException {
-        String chuckJson = HttpUtils.fetchData(CHUCK_URL);
+        /*String chuckJson = HttpUtils.fetchData(CHUCK_URL);
         String dadJson = HttpUtils.fetchData(DAD_URL);
         ChuckDTO chuckDTO = gson.fromJson(chuckJson, ChuckDTO.class);
         DadDTO dadDTO = gson.fromJson(dadJson, DadDTO.class);
         dadDTO.setUrl(DAD_URL);
-        return gson.toJson(new CombinedJoke(chuckDTO, dadDTO));
+        return gson.toJson(new CombinedJoke(chuckDTO, dadDTO));*/
+        return "";
     }
 }
