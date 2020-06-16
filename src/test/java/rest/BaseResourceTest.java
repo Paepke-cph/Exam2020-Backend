@@ -1,6 +1,8 @@
 package rest;
 
+import facades.BaseFacadeTest;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -18,7 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-abstract public class BaseResourceTest {
+import static io.restassured.RestAssured.given;
+
+abstract public class BaseResourceTest extends BaseFacadeTest {
     protected static final int SERVER_PORT = 7777;
     protected static final String SERVER_URL = "http://localhost/api";
 
@@ -38,12 +42,10 @@ abstract public class BaseResourceTest {
     public static void setUpClass() throws IOException {
         EMF_Creator.startREST_TestWithDB();
         emf = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.TEST, EMF_Creator.Strategy.CREATE);
-
         httpServer = startServer();
         RestAssured.baseURI = SERVER_URL;
         RestAssured.port = SERVER_PORT;
         RestAssured.defaultParser = Parser.JSON;
-        //testProps.load(JokeResourceTest.class.getClassLoader().getResourceAsStream("testing.properties"));
     }
 
     @AfterAll
@@ -52,7 +54,16 @@ abstract public class BaseResourceTest {
         httpServer.shutdownNow();
     }
 
-    @BeforeEach
-    public void setUp() {
+    protected String getUserToken() {
+        return given().contentType(ContentType.JSON).body("{username:\""+user.getUserName()+"\",password:\"this is a good password\"}")
+                .when().post("login").jsonPath().get("token");
+    }
+    protected String getAdminToken() {
+        return given().contentType(ContentType.JSON).body("{username:\""+admin.getUserName()+"\",password:\"this is a very good password\"}")
+                .when().post("login").jsonPath().get("token");
+    }
+    protected String getUserAdminToken() {
+        return given().contentType(ContentType.JSON).body("{username:\""+both.getUserName()+"\",password:\"could this be better\"}")
+                .when().post("login").jsonPath().get("token");
     }
 }

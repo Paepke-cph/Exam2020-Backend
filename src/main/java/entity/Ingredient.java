@@ -5,12 +5,20 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "ingredients")
-@NamedQueries(
+@NamedQueries({
         @NamedQuery(
                 name = "Ingredient.dropAll",
                 query = "delete from Ingredient"
+        ),
+        @NamedQuery(
+                name = "Ingredient.getByItemName",
+                query = "select i from Ingredient i where i.ingredient.name = :name"
+        ),
+        @NamedQuery(
+                name = "Ingredient.getAll",
+                query = "select i from Ingredient i"
         )
-)
+})
 public class Ingredient implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +37,16 @@ public class Ingredient implements Serializable {
     public Ingredient(Item ingredient, int amount) {
         this.ingredient = ingredient;
         this.amount = amount;
+    }
+
+    public Ingredient(IngredientDTO dto)  {
+        this.id = dto.getId();
+        this.ingredient = dto.getIngredient();
+        this.amount = dto.getAmount();
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getId() {

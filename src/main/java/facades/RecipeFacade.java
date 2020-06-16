@@ -2,9 +2,9 @@ package facades;
 
 import dtos.RecipeDTO;
 import entity.Ingredient;
+import entity.IngredientDTO;
 import entity.Recipe;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
@@ -73,8 +73,11 @@ public class RecipeFacade {
         return results;
     }
 
+
+
     public List<RecipeDTO> getByIngredients(List<Ingredient> searchIngredient) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+        fetchIngredientIds(searchIngredient);
         List<RecipeDTO> results = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
@@ -147,5 +150,17 @@ public class RecipeFacade {
                 results.add(new RecipeDTO(recipe));
             });
         }
+    }
+
+    private void fetchIngredientIds(List<Ingredient> searchIngredient) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        for (Ingredient ingredient : searchIngredient) {
+            Ingredient temp = entityManager
+                    .createNamedQuery("Ingredient.getByItemName", Ingredient.class)
+                    .setParameter("name", ingredient.getIngredient().getName())
+                    .getSingleResult();
+            ingredient.setId(temp.getId());
+        }
+        entityManager.close();
     }
 }
