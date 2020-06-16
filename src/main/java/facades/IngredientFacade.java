@@ -1,7 +1,7 @@
 package facades;
 
+import dtos.IngredientDTO;
 import entity.Ingredient;
-import entity.IngredientDTO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

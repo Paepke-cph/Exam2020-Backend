@@ -1,4 +1,7 @@
-package entity;
+package dtos;
+
+import entity.Ingredient;
+import entity.Item;
 
 public class IngredientDTO {
     private Long id;

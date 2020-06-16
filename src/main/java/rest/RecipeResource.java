@@ -17,7 +17,6 @@ import java.util.List;
 @Provider
 @Path("recipe")
 public class RecipeResource {
-
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
     private static final RecipeFacade RECIPE_FACADE = RecipeFacade.getRecipeFacade(EMF);
     private Gson gson = new Gson();

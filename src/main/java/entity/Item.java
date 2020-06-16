@@ -7,12 +7,16 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "items")
-@NamedQueries(
+@NamedQueries({
         @NamedQuery(
                 name = "Item.dropAll",
                 query = "delete from Item"
+        ),
+        @NamedQuery(
+                name = "Item.getAll",
+                query = "select i from Item i"
         )
-)
+})
 public class Item implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
