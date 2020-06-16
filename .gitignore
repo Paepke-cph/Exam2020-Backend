@@ -1,0 +1,9 @@
+
+\target 
+.idea/
+nb-configuration.xml
+/target/
+out/
+sqldump/
+src/main/resources/testing.properties
+Exam2020.iml
