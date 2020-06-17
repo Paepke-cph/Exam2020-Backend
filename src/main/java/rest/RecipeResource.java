@@ -1,9 +1,11 @@
 package rest;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 import dtos.RecipeDTO;
 import entity.Ingredient;
+import entity.Item;
 import facades.RecipeFacade;
+import jdk.nashorn.internal.parser.JSONParser;
 import utils.EMF_Creator;
 
 import javax.annotation.security.RolesAllowed;
@@ -12,6 +14,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
+import java.util.ArrayList;
 import java.util.List;
 
 @Provider
@@ -31,12 +34,12 @@ public class RecipeResource {
                 .build();
     }
 
-    @POST
+    @GET
     @RolesAllowed({"user","admin"})
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    @Path("/id")
-    public Response getRecipeById(String input) {
+    @Path("/{id}")
+    public Response getRecipeById(@PathParam("id") String input) {
         long id = Long.parseLong(input);
         return Response.ok(RECIPE_FACADE.getById(id)).build();
     }
@@ -45,7 +48,13 @@ public class RecipeResource {
     @RolesAllowed({"user","admin"})
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response getRecipeByIngredients(List<Ingredient> ingredients) {
+    public Response getRecipeByIngredients(String json) {
+        JsonArray jsonElements = new JsonParser().parse(json).getAsJsonArray();
+        List<Ingredient> ingredients = new ArrayList<>();
+        for (JsonElement jsonElement : jsonElements) {
+            JsonObject innerIngredient = jsonElement.getAsJsonObject();
+            Ingredient ingredient = new Ingredient();
+        }
         List<RecipeDTO> recipes = RECIPE_FACADE.getByIngredients(ingredients);
         return Response.ok(recipes).build();
     }
