@@ -49,14 +49,18 @@ public class RecipeResource {
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public Response getRecipeByIngredients(String json) {
-        JsonArray jsonElements = new JsonParser().parse(json).getAsJsonArray();
+        JsonArray array = new JsonParser().parse(json).getAsJsonArray();
         List<Ingredient> ingredients = new ArrayList<>();
-        for (JsonElement jsonElement : jsonElements) {
-            JsonObject innerIngredient = jsonElement.getAsJsonObject();
-            Ingredient ingredient = new Ingredient();
-        }
-        List<RecipeDTO> recipes = RECIPE_FACADE.getByIngredients(ingredients);
-        return Response.ok(recipes).build();
+        for(int i = 0; i < array.size(); i++) {
+            JsonObject element = array.get(i).getAsJsonObject();
+            int amount = element.get("amount").getAsInt();
+            Long id = element.get("id").getAsLong();
+            Item item = gson.fromJson(element.get("ingredient").toString(), Item.class);
+            Ingredient ingredient = new Ingredient(item,amount);
+            ingredient.setId(id);
+            ingredients.add(ingredient);
+    }
+        return Response.ok(RECIPE_FACADE.getByIngredients(ingredients)).build();
     }
 
     @POST
@@ -67,6 +71,7 @@ public class RecipeResource {
     public Response createRecipe(String input){
         // We cant deserialize the RecipeDTO in entity stream, apparently.....
         RecipeDTO recipe = gson.fromJson(input, RecipeDTO.class);
+        if(recipe == null) return Response.status(Response.Status.BAD_REQUEST).build();
         recipe = RECIPE_FACADE.createRecipe(recipe);
         return Response.ok(recipe).build();
     }
@@ -79,6 +84,7 @@ public class RecipeResource {
     public Response updateRecipe(String input) {
         // We cant deserialize the RecipeDTO in entity stream, apparently.....
         RecipeDTO recipe = gson.fromJson(input, RecipeDTO.class);
+        if(recipe == null) return Response.status(Response.Status.BAD_REQUEST).build();
         recipe = RECIPE_FACADE.updateRecipe(recipe);
         return Response.ok(recipe).build();
     }
@@ -91,6 +97,7 @@ public class RecipeResource {
     public Response deleteRecipe(String input) {
         // We cant deserialize the RecipeDTO in entity stream, apparently.....
         RecipeDTO recipe = gson.fromJson(input, RecipeDTO.class);
+        if(recipe == null) return Response.status(Response.Status.BAD_REQUEST).build();
         recipe = RECIPE_FACADE.deleteRecipe(recipe);
         return Response.ok(recipe).build();
     }

@@ -63,7 +63,7 @@ public class RecipeResourceTest extends BaseResourceTest {
                 .statusCode(403)
                 .body("message", notNullValue());
     }
-    @Disabled
+
     @Test
     public void testGetRecipeByIngredients() {
         List<Ingredient> ingredients = Utils.toList(in3,in4);
@@ -79,7 +79,6 @@ public class RecipeResourceTest extends BaseResourceTest {
                 .body("id", hasItems(r1.getId().intValue()));
     }
 
-    @Disabled
     @Test
     public void testGetRecipeByIngredients_with_not_in_use_ingredient() {
         List<Ingredient> ingredients = Utils.toList(notInUseIngredient);
